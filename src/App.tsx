@@ -1,4 +1,3 @@
 export default function App() {
-  return <div style={{ padding: 16 }}>Remote Report</div>;
+  return <div className="p-4">Remote Report</div>;
 }
-
