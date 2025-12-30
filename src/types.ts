@@ -9,3 +9,21 @@ export type ReportJob = {
   failureReason: string | null;
   createdAt: string;
 };
+
+export type DeviceType = "TEMP" | "HUMIDITY" | "CO2" | "MOTION";
+
+export type Device = {
+  id: string;
+  name: string;
+  type: DeviceType;
+  building: string;
+  room: string;
+  active: boolean;
+};
+
+export type PageResult<T> = {
+  content: T[];
+  totalElements: number;
+  page: number;
+  size: number;
+};

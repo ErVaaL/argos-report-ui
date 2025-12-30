@@ -3,14 +3,8 @@ import "./index.css";
 import { ErrorBanner } from "./components/common/ErrorBanner";
 import { Pagination } from "./components/common/Pagination";
 import ReportTable from "./components/report/ReportTable";
-import { ReportJob } from "./types";
-
-type PageResult<T> = {
-  content: T[];
-  totalElements: number;
-  page: number;
-  size: number;
-};
+import ReportRequestForm from "./components/report/ReportRequestForm";
+import { PageResult, ReportJob } from "./types";
 
 type Props = {
   apiBase?: string;
@@ -52,6 +46,7 @@ export default function App(props: Props) {
   const apiBase = props.apiBase ?? "http://localhost:80/api";
   const token = props.accessToken ?? null;
   const listUrl = `${apiBase}/report/jobs/list`;
+  const gqlUrl = `${apiBase}/resource/graphql`;
 
   const [page, setPage] = useState(0);
   const [pageSize] = useState(10);
@@ -60,11 +55,12 @@ export default function App(props: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
 
   const queryParams = useMemo(
     () => ({
       sortBy: "createdAt",
-      direction: "DESC",
+      direction: "ASC",
     }),
     [],
   );
@@ -92,7 +88,7 @@ export default function App(props: Props) {
         );
       }
       const data = (await res.json()) as PageResult<ReportJob>;
-      setItems(data.content);
+      setItems(data.content.reverse());
       setTotal(data.totalElements);
       setPage(nextPage);
     } catch (err: any) {
@@ -130,6 +126,42 @@ export default function App(props: Props) {
     }
   };
 
+  const createReport = async (payload: {
+    deviceId: string;
+    from: string | null;
+    to: string | null;
+  }) => {
+    setCreating(true);
+    setError(null);
+    try {
+      const url = `${apiBase}/process/jobs/report`;
+      const body = {
+        deviceId: payload.deviceId,
+        ...(payload.from ? { from: payload.from } : {}),
+        ...(payload.to ? { to: payload.to } : {}),
+      };
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(
+          `Create report failed: ${res.status} ${res.statusText} - ${text}`,
+        );
+      }
+      await load(0);
+    } catch (err: any) {
+      setError(err.message ?? String(err));
+    } finally {
+      setCreating(false);
+    }
+  };
+
   useEffect(() => {
     load(0);
   }, [listUrl, token, pageSize]);
@@ -148,6 +180,13 @@ export default function App(props: Props) {
       </div>
 
       {error && <ErrorBanner message={error} />}
+
+      <ReportRequestForm
+        loading={creating}
+        gqlUrl={gqlUrl}
+        token={token}
+        onSubmit={createReport}
+      />
 
       <section className="rounded-xl border bg-white p-4 shadow-sm">
         <ReportTable
