@@ -56,6 +56,8 @@ export default function App(props: Props) {
   const [error, setError] = useState<string | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
+  const [exportFilter, setExportFilter] = useState("");
+  const [exporting, setExporting] = useState(false);
 
   const queryParams = useMemo(
     () => ({
@@ -162,6 +164,36 @@ export default function App(props: Props) {
     }
   };
 
+  const downloadIssuedJobs = async () => {
+    setExporting(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams();
+      params.set("filter", exportFilter);
+      const url = `${apiBase}/process/jobs/export?${params.toString()}`;
+      const res = await fetch(url, {
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(
+          `Export failed: ${res.status} ${res.statusText} - ${text}`,
+        );
+      }
+      const blob = await res.blob();
+      const filename =
+        filenameFromDisposition(res.headers.get("content-disposition")) ??
+        "process-jobs.xlsx";
+      triggerDownload(blob, filename);
+    } catch (err: any) {
+      setError(err.message ?? String(err));
+    } finally {
+      setExporting(false);
+    }
+  };
+
   useEffect(() => {
     load(0);
   }, [listUrl, token, pageSize]);
@@ -187,6 +219,34 @@ export default function App(props: Props) {
         token={token}
         onSubmit={createReport}
       />
+
+      <section className="rounded-xl border bg-white p-4 shadow-sm">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold text-slate-900">
+              You don't see the requested report? Download issued jobs
+            </p>
+            <p className="text-xs text-slate-500">
+              Filter by status (REQUESTED, RUNNING, DONE, FAILED) or leave empty.
+            </p>
+          </div>
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+            <input
+              className="h-9 w-full rounded-md border border-slate-200 px-3 text-sm text-slate-900 shadow-sm focus:border-slate-400 focus:outline-none sm:w-56"
+              placeholder="Filter status"
+              value={exportFilter}
+              onChange={(event) => setExportFilter(event.target.value)}
+            />
+            <button
+              className="h-9 rounded-md bg-slate-900 px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+              onClick={downloadIssuedJobs}
+              disabled={exporting}
+            >
+              {exporting ? "Downloading…" : "Download"}
+            </button>
+          </div>
+        </div>
+      </section>
 
       <section className="rounded-xl border bg-white p-4 shadow-sm">
         <ReportTable
