@@ -8,7 +8,7 @@ const moduleFederation =
   (mf as any).pluginModuleFederation ??
   (mf as any).default;
 
-const BASE = process.env.ASSET_PREFIX ?? "/";
+const BASE = process.env.ASSET_PREFIX ?? "auto";
 
 export default defineConfig({
   output: {
