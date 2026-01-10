@@ -43,7 +43,7 @@ const triggerDownload = (blob: Blob, filename: string) => {
 };
 
 export default function App(props: Props) {
-  const apiBase = props.apiBase ?? "http://localhost:80/api";
+  const apiBase = props.apiBase ?? "/api/v1";
   const token = props.accessToken ?? null;
   const listUrl = `${apiBase}/report/jobs/list`;
   const gqlUrl = `${apiBase}/resource/graphql`;
@@ -227,7 +227,8 @@ export default function App(props: Props) {
               You don't see the requested report? Download issued jobs
             </p>
             <p className="text-xs text-slate-500">
-              Filter by status (REQUESTED, RUNNING, DONE, FAILED) or leave empty.
+              Filter by status (REQUESTED, RUNNING, DONE, FAILED) or leave
+              empty.
             </p>
           </div>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
