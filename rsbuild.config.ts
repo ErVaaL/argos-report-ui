@@ -28,6 +28,13 @@ export default defineConfig({
       },
     }),
   ],
+  tools: {
+    rspack: {
+      output: {
+        publicPath: "auto",
+      },
+    },
+  },
   source: {
     entry: {
       index: "./src/index.ts",
