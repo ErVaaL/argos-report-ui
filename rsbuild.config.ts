@@ -23,8 +23,8 @@ export default defineConfig({
         "./App": "./src/App",
       },
       shared: {
-        react: { singleton: true, eager: true, requiredVersion: false },
-        "react-dom": { singleton: true, eager: true, requiredVersion: false },
+        react: { singleton: true, requiredVersion: false },
+        "react-dom": { singleton: true, requiredVersion: false },
       },
     }),
   ],
