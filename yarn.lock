@@ -180,7 +180,7 @@
     encoding "^0.1.13"
     node-fetch "2.7.0"
 
-"@module-federation/rsbuild-plugin@^0.22.0":
+"@module-federation/rsbuild-plugin@0.22.0":
   version "0.22.0"
   resolved "https://registry.yarnpkg.com/@module-federation/rsbuild-plugin/-/rsbuild-plugin-0.22.0.tgz#2e3742059cdd6ba314a1e3108c35e9952163adf9"
   integrity sha512-vyGWfl6w1Bj6h9Tnk5sVICvOjR4ePrg3Y2YrqcdeNIg2Q4FJ8YjfFFXL91CFVTSJ8zJH38WaU8rkWLgUqBW7pw==
@@ -269,7 +269,7 @@
     "@emnapi/runtime" "^1.7.1"
     "@tybys/wasm-util" "^0.10.1"
 
-"@rsbuild/core@^1.7.2":
+"@rsbuild/core@1.7.2":
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/@rsbuild/core/-/core-1.7.2.tgz#4287b3392ea6de9cb466ef27350b7a0cfaf9f90a"
   integrity sha512-VAFO6cM+cyg2ntxNW6g3tB2Jc5J5mpLjLluvm7VtW2uceNzyUlVv41o66Yp1t1ikxd3ljtqegViXem62JqzveA==
@@ -280,7 +280,7 @@
     core-js "~3.47.0"
     jiti "^2.6.1"
 
-"@rsbuild/plugin-react@^1.4.2":
+"@rsbuild/plugin-react@1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@rsbuild/plugin-react/-/plugin-react-1.4.2.tgz#8d7083b86aebad63707006abd08797f1326b2701"
   integrity sha512-2rJb5mOuqVof2aDq4SbB1E65+0n1vjhAADipC88jvZRNuTOulg79fh7R4tsCiBMI4VWq46gSpwekiK8G5bq6jg==
@@ -603,9 +603,9 @@ axios@^1.12.0:
     proxy-from-env "^1.1.0"
 
 baseline-browser-mapping@^2.9.0:
-  version "2.9.13"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.9.13.tgz#e1d39147f6a7492438131476026e705d816b10cb"
-  integrity sha512-WhtvB2NG2wjr04+h77sg3klAIwrgOqnjS49GGudnUPGFFgg7G17y7Qecqp+2Dr5kUDxNRBca0SK7cG8JwzkWDQ==
+  version "2.9.14"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.9.14.tgz#3b6af0bc032445bca04de58caa9a87cfe921cbb3"
+  integrity sha512-B0xUquLkiGLgHhpPBqvl7GWegWBUNuujQ6kXd/r1U38ElPT6Ok8KZ8e+FpUGEc2ZoRQUzq/aUnaKFc/svWUGSg==
 
 browserslist@^4.28.1:
   version "4.28.1"
